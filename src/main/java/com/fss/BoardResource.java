@@ -17,24 +17,23 @@ public class BoardResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Uni<Response> addPost(boards post) {
-        System.out.println(post.toString());
-        return post.<boards>persist().map(v ->
+    public Uni<Response> post(boards board) {
+        return board.<boards>persist().map(v ->
                 Response.created(URI.create("/board/" + v.id.toString()))
-                        .entity(post).build());
+                        .entity(board).build());
     }
 
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Uni<boards> update(@PathParam("id") String id, UpdateBoard updateBoard) {
+    public Uni<boards> put(@PathParam("id") String id, UpdateBoard updateBoard) {
         return boards.updateBoard(id, updateBoard);
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<boards> getPost(@PathParam("id") String id) {
+    public Uni<boards> get(@PathParam("id") String id) {
         return boards.findById(new ObjectId(id));
     }
 
